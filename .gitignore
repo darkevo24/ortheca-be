@@ -37,7 +37,6 @@ webassets-manifest/
 *.sqlite3
 
 # Ignore credentials and sensitive information
-*.json
 *.pem
 *.p12
 *.env
