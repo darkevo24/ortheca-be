@@ -1,0 +1,47 @@
+# Virtual environment
+flask_env/
+
+# Compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE files
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Environment variables file
+.env
+
+# Python bytecode
+*.pyc
+
+# Logs
+*.log
+
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Flask specific
+instance/
+webassets-manifest/
+
+# Other
+*.sqlite3
+
+# Ignore credentials and sensitive information
+*.json
+*.pem
+*.p12
+*.env
+
+# Ignore system files that might be created on different operating systems
+.DS_Store
+Thumbs.db
