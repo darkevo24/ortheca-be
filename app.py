@@ -12,7 +12,7 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
+CORS(app)  # Enable CORS for all routes
 
 # Load Google Calendar API credentials
 SCOPES = ["https://www.googleapis.com/auth/calendar.events"]
@@ -56,45 +56,10 @@ def send_email():
 
     print(mailjet_response.json())
 
-    return jsonify(mailjet_response.json()), mailjet_response.status_code
+    response = jsonify(mailjet_response.json())
+    response.headers.add("Access-Control-Allow-Origin", "*")  # Allow all origins
 
-
-# Endpoint to fetch events from Google Calendar
-@app.route("/api/events", methods=["GET"])
-def get_events():
-    now = datetime.datetime.utcnow().isoformat() + "Z"  # 'Z' indicates UTC time
-    events_result = (
-        service.events()
-        .list(
-            calendarId=CALENDAR_ID,
-            timeMin=now,
-            maxResults=10,
-            singleEvents=True,
-            orderBy="startTime",
-        )
-        .execute()
-    )
-    events = events_result.get("items", [])
-    return jsonify({"events": events})
-
-
-# Endpoint to add an event to Google Calendar
-@app.route("/api/add-event", methods=["POST"])
-def add_event():
-    data = request.get_json()
-    event = {
-        "summary": data["title"],
-        "start": {
-            "dateTime": data["start"],
-            "timeZone": "UTC",
-        },
-        "end": {
-            "dateTime": data["end"],
-            "timeZone": "UTC",
-        },
-    }
-    service.events().insert(calendarId=CALENDAR_ID, body=event).execute()
-    return jsonify({"message": "Event added successfully"})
+    return response, mailjet_response.status_code
 
 
 if __name__ == "__main__":
