@@ -1,10 +1,6 @@
 import base64
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from google.oauth2 import service_account
-from googleapiclient.discovery import build
-from google.auth.transport.requests import Request
-import datetime
 import requests
 from dotenv import load_dotenv
 import os
@@ -13,20 +9,6 @@ load_dotenv()
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
-
-# Load Google Calendar API credentials
-SCOPES = ["https://www.googleapis.com/auth/calendar.events"]
-SERVICE_ACCOUNT_FILE = "apt-bonbon-354106-57613de5dc3a.json"
-CALENDAR_ID = "primary"
-
-creds = None
-if creds and creds.valid:
-    service = build("calendar", "v3", credentials=creds)
-else:
-    creds = service_account.Credentials.from_service_account_file(
-        SERVICE_ACCOUNT_FILE, scopes=SCOPES
-    )
-    service = build("calendar", "v3", credentials=creds)
 
 
 @app.route("/api/send-email", methods=["POST"])
